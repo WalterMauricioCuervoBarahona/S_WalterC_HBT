@@ -17,7 +17,7 @@ import javax.persistence.Table;
  * 
  * <b>Descripción:<b> Clase que permitira crear Comics <b>Caso de Uso:<b>
  * 
- * @author walter Cuervo
+ * @author SemilletoHBT
  * @version
  */
 @Entity

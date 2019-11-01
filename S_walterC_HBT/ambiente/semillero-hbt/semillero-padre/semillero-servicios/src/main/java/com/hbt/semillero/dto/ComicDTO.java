@@ -11,7 +11,7 @@ import com.hbt.semillero.entidades.TematicaEnum;
  * <b>Descripción:<b> Clase que crea un objeto plano del comic <b>Caso de
  * Uso:<b>
  * 
- * @author walter cuervo
+ * @author SemilletoHBT
  * @version
  */
 public class ComicDTO implements Serializable {

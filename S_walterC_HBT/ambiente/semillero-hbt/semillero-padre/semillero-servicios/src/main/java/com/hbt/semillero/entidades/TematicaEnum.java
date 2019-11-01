@@ -4,7 +4,7 @@ package com.hbt.semillero.entidades;
  * 
  * <b>Descripción:<b> Clase que determina <b>Caso de Uso:<b>
  * 
- * @author mauro
+ * @author SemilletoHBT
  * @version
  */
 public enum TematicaEnum {
@@ -14,7 +14,7 @@ public enum TematicaEnum {
 	HORROR("enum.tematica.horror");
 
 	/**
-	 * atributo 
+	 * atributo para acceder a la descripcion de un enum
 	 */
 	private String codigomensaje;
 

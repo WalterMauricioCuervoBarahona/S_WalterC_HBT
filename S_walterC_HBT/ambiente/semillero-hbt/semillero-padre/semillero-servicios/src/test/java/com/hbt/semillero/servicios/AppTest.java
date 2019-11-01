@@ -1,5 +1,4 @@
 package com.hbt.semillero.servicios;
-
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import com.hbt.semillero.entidades.Comic;
@@ -29,15 +28,15 @@ public class AppTest {
 	public void shouldAnswerWithTrue() {
 
 	}
-	
+		
 	/**
-	 * 
+	 * EJERCICIO SESION 2
 	 * Metodo encargado de gestionar los datos de la clase EstadoEnum, ademas de realizar unas pruebas unitaria y mostrar los datos
 	 * <b>Caso de Uso</b>
 	 * @author walter cuervo
 	 *
 	 */
-	@Test
+	@Test(enabled=false)
 	public void gestionEstadoEnumTest() {
 		this.estadoEnum = EstadoEnum.ACTIVO;
         String nombre = nombreEstadoEnum(estadoEnum);
@@ -144,14 +143,13 @@ public class AppTest {
 
 	
 	/**
-	 * 
+	 * EJERCICIO SESION 1
 	 * Metodo encargado de realizar pruebas unitarias al metodo invertirCadena
 	 * <b>Caso de Uso</b>
 	 * @author walter cuervo
 	 *
 	 */
-	/*
-	@Test
+	@Test(enabled=false)
 	public void invertirCadenaTest() {
 		String resultadoEsperado = "aloH";
 		String inversion = invertirCadena("Hola");
@@ -159,7 +157,7 @@ public class AppTest {
 		Assert.assertNotNull(inversion);
 		Assert.assertTrue(!inversion2.isEmpty());
 		Assert.assertEquals(inversion, resultadoEsperado);
-	}*/
+	}
 
 	/**
 	 * 
@@ -173,10 +171,12 @@ public class AppTest {
 		return comic.toString();
 	}
 
-	/*
-	 * @Test public void primeraPrueba() { Long resultadoEsperado = 150L; Long
-	 * sumando1 = 100L; Long sumando2 = 50L; Long resultado = sumando1+sumando2;
-	 * Assert.assertEquals(resultado, resultadoEsperado); Long resultadoEsperadoDos
-	 * = 200L; Assert.assertNotEquals(resultado, resultadoEsperadoDos); }
-	 */
+	
+	  @Test(enabled=false)
+	  public void primeraPrueba() { 
+		  Long resultadoEsperado = 150L; Long
+	  sumando1 = 100L; Long sumando2 = 50L; Long resultado = sumando1+sumando2;
+	  Assert.assertEquals(resultado, resultadoEsperado); Long resultadoEsperadoDos
+	  = 200L; Assert.assertNotEquals(resultado, resultadoEsperadoDos); }
+	 
 }

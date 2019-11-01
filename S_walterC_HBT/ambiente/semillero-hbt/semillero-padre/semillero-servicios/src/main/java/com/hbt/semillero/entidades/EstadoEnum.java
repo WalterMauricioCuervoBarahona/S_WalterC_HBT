@@ -4,7 +4,7 @@ package com.hbt.semillero.entidades;
  * 
  * <b>Descripción:<b> Clase que determina <b>Caso de Uso:<b>
  * 
- * @author walter cuervo
+ * @author SemilletoHBT
  * @version
  */
 public enum EstadoEnum {
