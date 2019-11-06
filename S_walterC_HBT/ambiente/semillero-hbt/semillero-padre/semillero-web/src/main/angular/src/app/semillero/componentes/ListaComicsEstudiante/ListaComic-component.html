@@ -1,0 +1,17 @@
+<!--muestra la lista de comics-->
+<div class="card animated fadeIn fast" *ngFor="let comics of imprimirLista; let i = index">
+    <div class="card-body">
+        <h5 class="card-title">{{ comics }}</h5>
+    </div>
+</div>
+
+<hr>
+<!--eliminar un comic cuando se oprima el boton-->
+<div>
+    <a class="btn btn-primary" (click)="eliminarComic(3)">Eliminar un comic</a>
+    <div *ngIf="isNoListaVacio">
+        <div class="card-body">
+            <h5 class="card-title">Se ha eliminado el comic {{comicEliminado}}</h5>
+        </div>
+    </div>
+</div>

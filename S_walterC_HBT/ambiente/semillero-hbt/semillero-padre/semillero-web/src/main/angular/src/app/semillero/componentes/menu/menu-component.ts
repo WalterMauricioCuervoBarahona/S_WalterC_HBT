@@ -47,4 +47,12 @@ export class MenuComponent implements OnInit {
   public navegarGestionarCompra(): void {
     //WIP
   }
+
+  /**
+   * @description Metodo encargado de direccionar al componente de lista de comic
+   * @author Walter Mauricio Cuervo Barahona <walter.cuervo@uptc.edu.co>
+   */
+  public navegarListaComicsEstudiante(): void {
+    this.router.navigate(['listaComic']);
+  }
 }

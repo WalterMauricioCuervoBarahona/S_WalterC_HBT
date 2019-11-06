@@ -9,6 +9,21 @@ import { Component, OnInit } from '@angular/core';
   selector: 'bienvenida',
   templateUrl: './bienvenida-component.html',
 })
-export class BienvenidaComponent {
+export class BienvenidaComponent implements OnInit{
+
+  public urlImagen: string;
+  
+  ngOnInit(): void {
+    this.urlImagen = "https://www.elempleo.com/sitios-empresariales/colombia/heinsohn-business-technology/img/elempleo-02.jpg";
+  }
+
+  /**
+   * 
+   * @description Metodo encargado de mostrar un alert segun un parametro
+   * @author SemileroHBT2019 
+   */
+  public ejecucionEventoClick(parametro: string): void {
+    alert("Hola " + parametro);
+  }
 
 }

@@ -10,11 +10,13 @@ import { APP_BASE_HREF } from '@angular/common';
 import { GestionarComicComponent } from './semillero/componentes/gestionarComic/gestionar-comic';
 import { MenuComponent } from './semillero/componentes/menu/menu-component';
 import { BienvenidaComponent } from './semillero/componentes/home/bienvenida-component';
-import {EstudianteComponent} from './semillero/componentes/estudianteSemillero/estudiante-component';
+import { EstudianteComponent } from './semillero/componentes/estudianteComponente/estudiante-component';
+import { ListaComicComponent } from './semillero/componentes/ListaComicsEstudiante/ListaComic-component';
 
 // DTOs
 export { ComicDTO } from './semillero/dto/comic.dto';
 export { ResultadoDTO } from './semillero/dto/resultado.dto';
+export { ComicEstudianteDTO } from './semillero/dto/comicEstudiante.dto';
 
 @NgModule({
   declarations: [
@@ -23,6 +25,7 @@ export { ResultadoDTO } from './semillero/dto/resultado.dto';
     BienvenidaComponent,
     GestionarComicComponent,
     EstudianteComponent,
+    ListaComicComponent,
   ],
   imports: [
     BrowserModule,
