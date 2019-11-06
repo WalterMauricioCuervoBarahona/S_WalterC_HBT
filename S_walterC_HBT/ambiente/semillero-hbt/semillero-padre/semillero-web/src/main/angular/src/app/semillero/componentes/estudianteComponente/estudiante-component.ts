@@ -116,11 +116,6 @@ export class EstudianteComponent implements OnInit {
         } else {
             console.log("Si es nulo");
         }
- 
-        console.log(1 == 1);
-       // console.log("1" == 1);
-        console.log(1 === 1);
-       // console.log("1" === 1);
         return retorno;
     }
 }
