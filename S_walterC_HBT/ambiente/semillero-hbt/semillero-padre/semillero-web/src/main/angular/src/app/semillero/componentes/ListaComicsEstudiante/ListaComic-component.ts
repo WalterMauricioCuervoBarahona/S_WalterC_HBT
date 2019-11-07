@@ -21,10 +21,6 @@ export class ListaComicComponent implements OnInit{
      */
     public listaComics: Array<ComicEstudianteDTO>;
     /**
-     * lista que se mostrara en html
-     */
-    public imprimirLista: Array<string>;
-    /**
      * atributo para saber el nombre del comic eliminado
      */
     public comicEliminado: string;
@@ -56,8 +52,6 @@ export class ListaComicComponent implements OnInit{
         
         this.listaComics.push(this.crearComicDTO(5, "Captain America", "Planeta Cómic", "FANTASTICO", 100,
         3800, "Steve Rogers ", false, new Date(), "INACTIVO"));        
-
-        this.imprimirListaComics();
     }
 
     /**
@@ -81,37 +75,13 @@ export class ListaComicComponent implements OnInit{
     }
 
     /**
-     * @description metodo para imprimir una lista de comics
-     * @author Walter Mauricio Cuervo Barahona <walter.cuervo@uptc.edu.co>
-     */
-    public imprimirListaComics(): void {
-        this.imprimirLista = new Array<string>();
-        this.listaComics.forEach(element => {
-            this.imprimirLista.push(JSON.stringify(element));
-        });
-    }
-
-    /**
      * @description metodo que elimina un comic según una posicion ingresada
      * @author Walter Mauricio Cuervo Barahona <walter.cuervo@uptc.edu.co>
      * @param posicion 
      */
     public eliminarComic(posicion: number): void {
-        if (!this.isNoListaVacio) {
-            console.log("lista vacia, no se puede eliminar");
-        } else {
             this.comicEliminado = this.listaComics[posicion].nombre;
             this.listaComics.splice(posicion, 1);
-            console.log(this.listaComics);    
-        }
-        
-    }
-
-    /**
-     * @description cmetodo para saber si la lista esta vacia
-     * @author Walter Mauricio Cuervo Barahona <walter.cuervo@uptc.edu.co>
-     */
-    public isNoListaVacio(): boolean {
-        return this.listaComics.length > 0;
+            console.log(this.listaComics);          
     }
 }
