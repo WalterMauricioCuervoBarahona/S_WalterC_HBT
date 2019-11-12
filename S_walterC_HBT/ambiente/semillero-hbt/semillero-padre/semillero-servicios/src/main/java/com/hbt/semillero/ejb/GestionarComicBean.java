@@ -11,71 +11,32 @@ import javax.persistence.PersistenceContext;
 
 import com.hbt.semillero.dto.ComicDTO;
 import com.hbt.semillero.entidades.Comic;
-
 /**
- * 
- * <b>Descripción:<b> Clase que implememnta una interface para gestionar metodos del comic
- * <b>Caso de Uso:<b> 
- * @author mauro
- * @version
- */
+ * Para empezar la comunicacion entre la base de datos
+ * y la aplicacion
+ * */
 @Stateless
-public class GestionarComicBean implements IGestionarComicLocal{
-	/**
-	 * atributo que contiene la interfaz EntityManager
-	 */
+public class GestionarComicBean implements IGestionarComicLocal {
+	//CMT	
 	@PersistenceContext
-	private EntityManager em;
+    private EntityManager em;
 	
 	/**
-	 * metodo que crea un comic
+	 * 
 	 * @see com.hbt.semillero.ejb.IGestionarComicLocal#crearComic(com.hbt.semillero.dto.ComicDTO)
 	 */
 	@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
 	public void crearComic(ComicDTO comicDTO) {
-	      Comic comic = convertirComicDTOToComic(comicDTO);
-	      em.persist(comic);
-	}
-	
-	/**
-	 * 
-	 * Metodo encargado de modiicar un comic
-	 * <b>Caso de Uso</b>
-	 * @author SemilleroHBT2019
-	 * 
-	 * @param comicModificar
-	 */
-	/*
-	@TransactionAttribute(TransactionAttributeType.REQUIRED)
-    public void modificarComic(Comic comicModificar) {
-		Comic comic = new Comic();
-		comic.setId(comicModificar.getId());
-		em.merge(comic);
-	}*/
-	
-	/**
-	 * metodo encargado de crear un comicDTO
-	 * @see com.hbt.semillero.ejb.IGestionarComicLocal#consultarComic(java.lang.String)
-	 */
-	@TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
-    public ComicDTO consultarComic(String idComic) {
-		Comic comic = em.find(Comic.class, idComic); 
-		ComicDTO comicDTO = convertirComicToComicDTO(comic);
-		return comicDTO;		
+		Comic comic = convertirComicDTOtoComic(comicDTO);
+		em.persist(comic);
 	}	
 	
-	/**
-	 * 
-	 * Metodo encargado de 
-	 * <b>Caso de Uso</b>
-	 * @author SemilleroHBT2019
-	 * 
-	 * @return
-	 */
+	
 	/*
 	@TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
-    public List<ComicDTO> consultarComic() {
-		List<Comic> resultados = (List<Comic>) em.createQuery("select c from Comic").getResultList(); 
+	public List<ComicDTO> consultarTodos(){
+		//em.createNativeQuery("SELECT c FROM Comic").getResultList();
+		List<Comic> resultados = (List<Comic>) em.createQuery("select c from Comic").getResultList();
 		return null;
 	}*/
 
@@ -83,47 +44,32 @@ public class GestionarComicBean implements IGestionarComicLocal{
 	 * metodo que modifica un comic
 	 * @see com.hbt.semillero.ejb.IGestionarComicLocal#modificarComic(java.lang.Long, java.lang.String, com.hbt.semillero.dto.ComicDTO)
 	 */
-	//@TransactionAttribute(TransactionAttributeType.REQUIRED)
+	@TransactionAttribute(TransactionAttributeType.REQUIRED)
 	@Override
 	public void modificarComic(Long id, String nombre, ComicDTO comicNuevo) {
-				//TODO
-		//cual es el resultado del llamar modificarComic
 		Comic comicModificar;
 		if(comicNuevo == null) {
-			comicModificar = em.find(Comic.class, id); //manejar la entidad para que el entityManager pueda manejarla
+			comicModificar = em.find(Comic.class, id);
 		}else {
-			comicModificar = convertirComicDTOToComic(comicNuevo);
+			comicModificar = convertirComicDTOtoComic(comicNuevo);
 		}
-		//TODO
-		//validar si el parametro llega con un valor
-		comicModificar.setNombre(nombre);
-		em.merge(comicModificar);
-	}
-
-	/**
-	 * metodo que elimina un comic,  TAREA SESIÓN 4 
-	 * @see com.hbt.semillero.ejb.IGestionarComicLocal#eliminarComic(java.lang.Long)
-	 */
-	@Override
-	public void eliminarComic(Long idComic) {
-		Comic comicEliminar = buscarComic(idComic);
-		if(comicEliminar != null) {
-			em.remove(comicEliminar);
+		if(nombre != null) {
+			comicModificar.setNombre(nombre);
+			em.merge(comicModificar);
 		}
 	}
-
+	
+	
 	/**
-	 * metodo encargado de consultar una lista de comics
+	 * 
 	 * @see com.hbt.semillero.ejb.IGestionarComicLocal#consultarComics()
 	 */
 	@Override
 	@TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
-	//TODO
-	//hacer que la lista de resultados sea null y mirar que pasa
 	public List<ComicDTO> consultarComics() {
-		List<ComicDTO> resultadosComicDTO = new ArrayList<ComicDTO>();
-		List<Comic> resultados = em.createQuery("select c from Comic c").getResultList();//permite realizar consultas de forma nativa y obtener
-		for (Comic comic : resultados) {
+		List<ComicDTO> resultadosComicDTO = new ArrayList<ComicDTO>(); // conjunto de elementos que almacena datos con cierto orden
+		List<Comic> resultados = em.createQuery("select c from Comic c").getResultList();// c hace referencia a toda la entidad
+		for(Comic comic: resultados) {
 			resultadosComicDTO.add(convertirComicToComicDTO(comic));
 		}
 		return resultadosComicDTO;
@@ -138,7 +84,7 @@ public class GestionarComicBean implements IGestionarComicLocal{
 	 * @param comicDTO
 	 * @return
 	 */
-	private Comic convertirComicDTOToComic(ComicDTO comicDTO) {
+	private Comic convertirComicDTOtoComic (ComicDTO comicDTO ) {
 		Comic comic = new Comic();
         if(comicDTO.getId()!=null) {
             comic.setId(Long.parseLong(comicDTO.getId()));
@@ -157,15 +103,6 @@ public class GestionarComicBean implements IGestionarComicLocal{
         return comic;
 	}
 	
-	/**
-	 * 
-	 * Metodo encargado de convertir un comic a comicDTO
-	 * <b>Caso de Uso</b>
-	 * @author SemilleroHBT2019
-	 * 
-	 * @param comic
-	 * @return
-	 */
 	private ComicDTO convertirComicToComicDTO(Comic comic) {
         ComicDTO comicDTO = new ComicDTO();
         if(comic.getId()!=null) {
@@ -195,10 +132,65 @@ public class GestionarComicBean implements IGestionarComicLocal{
 	 * @return
 	 */
 	private Comic buscarComic(Long idComic) {
-		if(idComic != null) {
-			return em.find(Comic.class, idComic); //busca una entidad comic con la llave primaria
-		}
-		return null;
+		return idComic != null ? em.find(Comic.class, idComic) : null;
 	}
-
+	
+	/**
+	 * metodo que elimina un comic,  TAREA SESIÓN 4 
+	 * @see com.hbt.semillero.ejb.IGestionarComicLocal#eliminarComic(java.lang.Long)
+	 */
+	@Override
+	public void eliminarComic(Long idComic) {
+		Comic comicEliminar = buscarComic(idComic);
+		if(comicEliminar != null) {
+			em.remove(comicEliminar);	
+		}		
+	}
+	
+	/**
+	 * 
+	 * @see com.hbt.semillero.ejb.IGestionarComicLocal#createComic(com.hbt.semillero.dto.ComicDTO)
+	 */
+	@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
+	public Comic createComic(ComicDTO comicDTO) {
+		Comic comic = convertirComicDTOtoComic(comicDTO);
+		em.persist(comic);
+		return comic;
+	}
+	
+	/**
+	 * 
+	 * @see com.hbt.semillero.ejb.IGestionarComicLocal#consultarComic(java.lang.String)
+	 */
+	@TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
+	public ComicDTO consultarComic(String idComic) {
+		Comic comic = em.find(Comic.class,Long.parseLong(idComic));		
+		ComicDTO comicDTO = convertirComicToComicDTO(comic);
+		return comicDTO;
+	}
+	
+	/**
+	 * 
+	 * @see com.hbt.semillero.ejb.IGestionarComicLocal#modificateComic(com.hbt.semillero.dto.ComicDTO)
+	 */
+	@TransactionAttribute(TransactionAttributeType.REQUIRED)
+	public ComicDTO modificateComic(ComicDTO comicDTO) {
+		Comic comicModificar = buscarComic(Long.valueOf(comicDTO.getId()));
+		if(comicModificar != null) {
+			comicModificar = convertirComicDTOtoComic(comicDTO);
+			em.merge(comicModificar);
+		}
+		return convertirComicToComicDTO(comicModificar);		
+	}
+	
+	/**
+	 * 
+	 * @see com.hbt.semillero.ejb.IGestionarComicLocal#deleteComic(java.lang.Long)
+	 */
+	@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
+	public ComicDTO deleteComic(Long idComic) {
+		ComicDTO comicDTO = consultarComic(idComic.toString());
+		eliminarComic(idComic);
+		return comicDTO;
+	}
 }

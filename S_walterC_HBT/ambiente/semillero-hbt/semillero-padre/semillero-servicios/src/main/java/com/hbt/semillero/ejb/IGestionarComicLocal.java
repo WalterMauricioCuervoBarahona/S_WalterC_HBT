@@ -5,6 +5,7 @@ package com.hbt.semillero.ejb;
 	import javax.ejb.Local;
 
 	import com.hbt.semillero.dto.ComicDTO;
+import com.hbt.semillero.entidades.Comic;
 
 	/**
 	 * Expone los métodos del EJB GestionarComic Las interfaces determinan una
@@ -27,7 +28,7 @@ package com.hbt.semillero.ejb;
 		 * @param comicNuevo informacion nueva a crear
 		 */
 		public void crearComic(ComicDTO comicNuevo);
-
+		
 		/**
 		 * 
 		 * Metodo encargado de consultar un comic modificarlo y guardarlo
@@ -57,7 +58,7 @@ package com.hbt.semillero.ejb;
 		 * @throws Exception si no se recibe idComic
 		 */
 		public ComicDTO consultarComic(String idComic);
-
+		
 		/**
 		 * 
 		 * Metodo encargado de retornar una lista de comics
@@ -65,4 +66,37 @@ package com.hbt.semillero.ejb;
 		 * @return
 		 */
 		public List<ComicDTO> consultarComics();
+		
+		/**
+		 * 
+		 * Metodo encargado de crear un comic y persistirlo, ademas lo retorna para saber si el servicio fue exitoso
+		 * <b>Caso de Uso</b>
+		 * @author Walter Cuervo
+		 * 
+		 * @param comicDTO
+		 * @return Comic creado
+		 */
+		public Comic createComic(ComicDTO comicDTO);
+		
+		/**
+		 * 
+		 * Metodo encargado de eliminar un comic y persistirlo, además lo retorna para saber si fue exitoso el servicio
+		 * <b>Caso de Uso</b>
+		 * @author Walter Cuervo
+		 * 
+		 * @param idComic
+		 * @return Comic eliminado
+		 */
+		public ComicDTO deleteComic(Long idComic);
+		
+		/**
+		 * 
+		 * Metodo encargado de modificar un comic y persistirlo, además lo retorna para saber si fue exitoso. 
+		 * <b>Caso de Uso</b>
+		 * @author Walter Cuervo
+		 * 
+		 * @param comicDTO
+		 * @return Comic eliminado
+		 */
+		public ComicDTO modificateComic(ComicDTO comicDTO);		
 }
