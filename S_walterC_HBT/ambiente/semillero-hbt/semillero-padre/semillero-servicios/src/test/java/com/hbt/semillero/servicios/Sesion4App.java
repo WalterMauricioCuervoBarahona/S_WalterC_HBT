@@ -19,7 +19,7 @@ public class Sesion4App {
 	 * @author SemilleroHBT
 	 *
 	 */
-	@Test
+	@Test(enabled=false)
 	public void probarCadenaString() {
 		String s1= "hola";
 		String s2;
