@@ -30,14 +30,17 @@ export class ConsultarComicComponent implements OnInit {
      */
     constructor(private fb: FormBuilder, private router: Router, private activatedRoute: ActivatedRoute) {
         this.consultarComicForm = this.fb.group({
-            nombre: [null, Validators.required],
-            tematica: [null],
-            color: [null],
-            editorial: [null],
-            coleccion: [null],
-            numeroPaginas: [null],
-            precio: [null],
-            autores: [null]
+            autores : [null],
+            cantidad: [null],
+            coleccion : [null],
+            color : [null],
+            editorial : [null],
+            estadoEnum: [null],
+            fechaVenta: [null],
+            nombre : [null, Validators.required],
+            numeroPaginas : [null],
+            precio : [null],
+            tematicaEnum : [null],
         });
     }
 
@@ -54,22 +57,28 @@ export class ConsultarComicComponent implements OnInit {
      * metodo que se encarga de asignar a la ventana consultar comic los datos de un comic, ademas desahbilita la edicion de campos
      */
     public buscarComic(): void {
-        this.consultarComicForm.controls.nombre.setValue(this.comic.nombre);
-        this.consultarComicForm.controls.editorial.setValue(this.comic.editorial);
-        this.consultarComicForm.controls.tematica.setValue(this.comic.tematica);
+        this.consultarComicForm.controls.autores.setValue(this.comic.autores);
+        this.consultarComicForm.controls.cantidad.setValue(this.comic.cantidad);
         this.consultarComicForm.controls.coleccion.setValue(this.comic.coleccion);
+        this.consultarComicForm.controls.color.setValue(this.comic.color);
+        this.consultarComicForm.controls.editorial.setValue(this.comic.editorial);
+        this.consultarComicForm.controls.estadoEnum.setValue(this.comic.estadoEnum);
+        this.consultarComicForm.controls.fechaVenta.setValue(this.comic.fechaVenta);
+        this.consultarComicForm.controls.nombre.setValue(this.comic.nombre);
         this.consultarComicForm.controls.numeroPaginas.setValue(this.comic.numeroPaginas);
         this.consultarComicForm.controls.precio.setValue(this.comic.precio);
-        this.consultarComicForm.controls.autores.setValue(this.comic.autores);
-        this.consultarComicForm.controls.color.setValue(this.comic.color);
+        this.consultarComicForm.controls.tematicaEnum.setValue(this.comic.tematicaEnum);
         this.consultarComicForm.controls.nombre.disable();
         this.consultarComicForm.controls.editorial.disable();
-        this.consultarComicForm.controls.tematica.disable();
+        this.consultarComicForm.controls.tematicaEnum.disable();
         this.consultarComicForm.controls.coleccion.disable();
         this.consultarComicForm.controls.numeroPaginas.disable();
         this.consultarComicForm.controls.precio.disable();
         this.consultarComicForm.controls.autores.disable();
         this.consultarComicForm.controls.color.disable();
+        this.consultarComicForm.controls.cantidad.disable();
+        this.consultarComicForm.controls.estadoEnum.disable();
+        this.consultarComicForm.controls.fechaVenta.disable();
     }
 
     /**

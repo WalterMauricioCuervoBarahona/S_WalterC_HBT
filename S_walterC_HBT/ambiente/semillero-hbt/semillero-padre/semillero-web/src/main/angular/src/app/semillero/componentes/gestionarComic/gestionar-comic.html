@@ -22,7 +22,7 @@
             <div class="col-6">
                 <div class="form-group">
                     <label for="tematica">Tematica:</label>
-                    <select class="form-control" id="tematica" formControlName="tematica">
+                    <select class="form-control" id="tematica" formControlName="tematicaEnum">
                         <option value="AVENTURAS">AVENTURAS</option>
                         <option value="BELICO">BELICO</option>
                         <option value="DEPORTIVO">DEPORTIVO</option>
@@ -53,6 +53,30 @@
 
         <div class="row">
             <div class="col-6">
+                <label for="cantidad">Cantidad:</label>
+                <input type="number" class="form-control" id="cantidad" formControlName="cantidad">
+            </div>
+
+            <div class="col-6">
+                <div class="form-group">
+                    <label for="estadoEnum">estado</label>
+                    <select class="form-control" id="estadoEnum" formControlName="estadoEnum">
+                        <option value="ACTIVO">ACTIVO</option>
+                        <option value="INACTIVO">INACTIVO</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-6">
+                <label for="fechaVenta">Fecha de venta:</label>
+                <input type="number" class="form-control" id="fechaVenta" formControlName="fechaVenta">
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-6">
                 <label for="autores">Autores:</label>
                 <textarea class="form-control" id="autores" rows="3" formControlName="autores"></textarea>
             </div>
@@ -73,7 +97,6 @@
         <br>
         <div class="row">
             <div class="col-6">
-                <span></span>
             </div>
             <div class="col-6 text-right">
                 <button type="button" class="btn btn-primary" (click)="crearActualizarComic()">Crear/Editar</button>
@@ -101,13 +124,13 @@
                         <tr *ngFor="let comic of listaComics;let i=index;">
                             <th scope="row">{{comic.id}}</th>
                             <td>{{comic.nombre | uppercase }}</td>
-                            <td>{{comic.tematica | lowercase }}</td>
+                            <td>{{comic.tematicaEnum | lowercase }}</td>
                             <td>{{comic.precio | number: '.2'}}</td>
                             <td>{{comic.color ? 'Si' : 'No' }}</td>
                             <td>
-                                <i class="fas fa-search 2x ml-1" [routerLink]="['/consultarComic', comic]" title="Consultar"></i>
-                                <i class="fas fa-pencil-alt 2x ml-1" (click)="editarComic(comic, i)" title="Editar"></i>
-                                <i class="far fa-times-circle 2x ml-1" (click)="eliminarComic(i)" title="Eliminar"></i>
+                                <i class="fas fa-search 2x ml-1" (click)="consultarComic(comic.id)" title="Consultar"></i>
+                                <i class="fas fa-pencil-alt 2x ml-1" (click)="editarComic(comic)" title="Editar"></i>
+                                <i class="far fa-times-circle 2x ml-1" (click)="eliminarComic(comic.id)" title="Eliminar"></i>
                             </td>
                         </tr>
                     </tbody>

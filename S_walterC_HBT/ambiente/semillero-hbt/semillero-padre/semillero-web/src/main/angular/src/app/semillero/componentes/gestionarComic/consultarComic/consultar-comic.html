@@ -19,7 +19,7 @@
             <div class="col-6">
                 <div class="form-group">
                     <label for="tematica">Tematica:</label>
-                    <select class="form-control" id="tematica" formControlName="tematica">
+                    <select class="form-control" id="tematica" formControlName="tematicaEnum">
                         <option value="AVENTURAS">AVENTURAS</option>
                         <option value="BELICO">BELICO</option>
                         <option value="DEPORTIVO">DEPORTIVO</option>
@@ -45,6 +45,31 @@
             <div class="col-6">
                 <label for="precio">Precio:</label>
                 <input type="number" class="form-control" id="precio" step=".01" formControlName="precio">
+            </div>
+        </div>
+
+
+        <div class="row">
+            <div class="col-6">
+                <label for="cantidad">Cantidad:</label>
+                <input type="number" class="form-control" id="cantidad" formControlName="cantidad">
+            </div>
+
+            <div class="col-6">
+                <div class="form-group">
+                    <label for="estadoEnum">estado</label>
+                    <select class="form-control" id="estadoEnum" formControlName="estadoEnum">
+                        <option value="ACTIVO">ACTIVO</option>
+                        <option value="INACTIVO">INACTIVO</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-6">
+                <label for="fechaVenta">Fecha de venta:</label>
+                <input type="number" class="form-control" id="fechaVenta" formControlName="fechaVenta">
             </div>
         </div>
 

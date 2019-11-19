@@ -39,15 +39,15 @@ public class CORSFilter implements Filter {
 			throws IOException, ServletException {
 
 		HttpServletRequest request = (HttpServletRequest) servletRequest;
+		
 
 		// Authorize (allow) all domains to consume the content
 		((HttpServletResponse) servletResponse).addHeader("Access-Control-Allow-Origin", "*");
 		((HttpServletResponse) servletResponse).addHeader("Access-Control-Allow-Headers", "access-control-allow-headers, origin, content-type, accept, authorization, application/json, multipart/form-data, text/plain, */*");
-		((HttpServletResponse) servletResponse).addHeader("Access-Control-Allow-Methods",
-				"GET, OPTIONS, HEAD, PUT, POST");
+		((HttpServletResponse) servletResponse).addHeader("Access-Control-Allow-Methods", "GET, DELETE, OPTIONS, HEAD, PUT, POST");
 
 		HttpServletResponse resp = (HttpServletResponse) servletResponse;
-
+		
 		// For HTTP OPTIONS verb/method reply with ACCEPTED status code -- per CORS
 		// handshake
 		if (request.getMethod().equals("OPTIONS")) {

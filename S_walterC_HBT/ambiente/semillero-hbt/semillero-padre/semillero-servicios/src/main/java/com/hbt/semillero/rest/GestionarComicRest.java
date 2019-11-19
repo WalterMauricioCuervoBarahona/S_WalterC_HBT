@@ -1,4 +1,9 @@
+/**
+ * GestionarComicRest.java
+ */
 package com.hbt.semillero.rest;
+
+import java.util.List;
 
 import javax.ejb.EJB;
 import javax.ws.rs.Consumes;
@@ -10,108 +15,114 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
+
 import com.hbt.semillero.dto.ComicDTO;
+import com.hbt.semillero.dto.ResultadoDTO;
 import com.hbt.semillero.ejb.IGestionarComicLocal;
 
 /**
+ * <b>Descripción:<b> Clase que determina el servicio rest que permite gestionar
+ * un comic
  * 
- * <b>Descripción:<b> Clase que permite llamar los servicios rest de gestionar un comic
- * <b>Caso de Uso:<b> 
- * @author SemilleroHBT2019
+ * @author ccastano
  * @version
  */
 @Path("/GestionarComic")
 public class GestionarComicRest {
-	
+
 	/**
-	 * atributo del bean gestionar Comic
+	 * Atriburo que permite gestionar un comic
 	 */
 	@EJB
 	private IGestionarComicLocal gestionarComicEJB;
-	
+
 	/**
 	 * 
-	 * Metodo encargado de mostrar un mensaje rest
-	 * <b>Caso de Uso</b>
-	 * @author SemilleroHBT2019
+	 * Metodo encargado de traer la informacion de un comic determiando
+	 * http://localhost:8085/semillero-servicios/rest/GestionarComic/saludo
 	 * 
+	 * @param idComic
 	 * @return
 	 */
 	@GET
 	@Path("/saludo")
 	@Produces(MediaType.APPLICATION_JSON)
-	public String miPrimerRest() {
-		return "Hola mundo";
+	public String primerRest() {
+		return "Prueba inicial servicios rest en el semillero java hbt";
 	}
-	
+
 	/**
 	 * 
-	 * Metodo encargado de mostrar un comicDTO en el rest
-	 * <b>Caso de Uso</b>
-	 * @author SemilleroHBT2019
+	 * Metodo encargado de traer la informacion de un comic determiando
+	 * http://localhost:8085/semillero-servicios/rest/GestionarComic/consultarComic?idComic=1
 	 * 
-	 * @param idComic, necesario para buscar el comic
+	 * @param idComic
 	 * @return
+	 * @throws Exception 
 	 */
 	@GET
 	@Path("/consultarComic")
 	@Produces(MediaType.APPLICATION_JSON)
-	public ComicDTO consultarComic(@QueryParam("idComic")Long idComic) {
-		if(idComic != null) {
-			return gestionarComicEJB.consultarComic(idComic.toString());
-		}
-		return null;
+	public ComicDTO consultarComic(@QueryParam("idComic") Long idComic) throws Exception {
+			 return gestionarComicEJB.consultarComic(idComic.toString());
 	}
-	
+
 	/**
 	 * 
-	 * Metodo encargado de crear un comic y persistirlo, además de crear y retornat un comicDTO en el rest, recibe y envía un comicDTO en formato JSON
-	 * <b>Caso de Uso</b>
-	 * @author Walter Cuervo
+	 * Metodo encargado de traer la informacion de una lista de comic´s
+	 * http://localhost:8085/semillero-servicios/rest/GestionarComic/consultarComics
 	 * 
-	 * @param comicDTO
+	 * @param idComic
+	 * @return
+	 */
+	@GET
+	@Path("/consultarComics")
+	@Produces(MediaType.APPLICATION_JSON)
+	public List<ComicDTO> consultarComic() {
+		return gestionarComicEJB.consultarComics();
+
+	}
+
+	/**
+	 * Crea un comic
+	 * http://localhost:8085/semillero-servicios/rest/GestionarComic/crear
+	 * @param persona
 	 * @return
 	 */
 	@POST
-	@Path("/crearComic")
-	@Consumes(MediaType.APPLICATION_JSON)
+	@Path("/crear")
 	@Produces(MediaType.APPLICATION_JSON)
-	public ComicDTO crearComic(ComicDTO comicDTO) {
-		Long idComic = gestionarComicEJB.createComic(comicDTO).getId(); 
-		return gestionarComicEJB.consultarComic(idComic.toString());		
-	}	
-	
+	@Consumes(MediaType.APPLICATION_JSON)
+	public ResultadoDTO crearComic(ComicDTO comicDTO) {
+		return gestionarComicEJB.crearComic(comicDTO);		
+	}
+
 	/**
 	 * 
-	 * Metodo encargado de eliminar un comic y persistirlo, ademas retorna un comicDTO para mostrarlo en el rest y saber cuál se elimino
+	 * Metodo encargado de eliminar un comic dado el id
 	 * 
-	 * <b>Caso de Uso</b>
-	 * @author Walter Cuervo
-	 * 
-	 * @param idComic, query para especificar el comic a eliminar
-	 * @return
+	 * @param idComic identificador del comic
+	 * @throws Exception 
 	 */
 	@DELETE
-	@Path("/eliminarComic")
+	@Path("/eliminar")
 	@Produces(MediaType.APPLICATION_JSON)
-	public ComicDTO eliminarComic(@QueryParam("id")Long idComic) {
-		 return gestionarComicEJB.deleteComic(idComic);
+	public ResultadoDTO eliminarComic(@QueryParam("idComic") Long idComic) {
+			return gestionarComicEJB.eliminarComic(idComic);
 	}
 	
 	/**
 	 * 
-	 * Metodo encargado de editar un comic y persistirlo, luego se crea y retorna un comicDTO en el rest
-	 * <b>Caso de Uso</b>
-	 * @author Walter Cuervo
-	 * 
-	 * @param comicDTO, parametro comicDTO que va a modificar el comic
-	 * @return
+	 * Metodo encargado de modificar un comic
+	 * http://localhost:8085/semillero-servicios/rest/GestionarComic/modificar?idComic=1&nombre=nuevonombre
+	 * @param idComic identificador del comic a buscar
+	 * @param nombre nombre nuevo del comic
 	 */
 	@PUT
-	@Path("/editarComic")
-	@Consumes(MediaType.APPLICATION_JSON)
+	@Path("/modificar")
 	@Produces(MediaType.APPLICATION_JSON)
-	public ComicDTO editarComic(ComicDTO comicDTO) {
-		return gestionarComicEJB.modificateComic(comicDTO);
-	}	
+	public ResultadoDTO modificarComic(ComicDTO comicDTO) {
+		return gestionarComicEJB.modificarComic(comicDTO);
+	}
+
 }

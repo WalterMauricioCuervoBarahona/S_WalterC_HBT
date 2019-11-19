@@ -3,127 +3,35 @@ package com.hbt.semillero.dto;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import com.hbt.semillero.entidades.EstadoEnum;
-import com.hbt.semillero.entidades.TematicaEnum;
+
+import com.hbt.semillero.entidad.EstadoEnum;
+import com.hbt.semillero.entidad.TematicaEnum;
 
 /**
+ * <b>Descripción:<b> Clase que determina el dto a usar para modificar,
+ * consultar y posteriormente eliminar un comic
  * 
- * <b>Descripción:<b> Clase que crea un objeto plano del comic <b>Caso de
- * Uso:<b>
- * 
- * @author SemilletoHBT
- * @version
+ * @author ccastano
  */
 public class ComicDTO implements Serializable {
 
 	/**
-	 * variable de serializacion
+	 * Atributo que determina
 	 */
 	private static final long serialVersionUID = 1L;
 
-	/**
-	 * atributo identificacion del comic
-	 */
 	private String id;
-	/**
-	 * atributo nombre del comic
-	 */
 	private String nombre;
-	/**
-	 * atributo editorial del comic
-	 */
 	private String editorial;
-	/**
-	 * atributo tematica de comic
-	 */
 	private TematicaEnum tematicaEnum;
-	/**
-	 * atributo coleccion del comic
-	 */
 	private String coleccion;
-	/**
-	 * atributo del numero de paginas del comic
-	 */
 	private Integer numeroPaginas;
-	/**
-	 * atributo del precio del comic
-	 */
 	private BigDecimal precio;
-	/**
-	 * atributo de los autores del comic
-	 */
 	private String autores;
-	/**
-	 * atributo del color del comic
-	 */
 	private Boolean color;
-	/**
-	 * atributo de la fecha de venta del comic
-	 */
 	private LocalDate fechaVenta;
-	/**
-	 * atributo enum del estado del comic
-	 */
 	private EstadoEnum estadoEnum;
-	/**
-	 * atributo de la cantintidad de ejemplares
-	 */
 	private Long cantidad;
-
-	/**
-	 * Constructor de la clase.
-	 * 
-	 * @param id
-	 * @param nombre
-	 */
-	public ComicDTO(String id, String nombre) {
-		super();
-		this.id = id;
-		this.nombre = nombre;
-	}
-
-	/**
-	 * 
-	 * Constructor de la clase.
-	 * 
-	 * @param id
-	 * @param nombre
-	 * @param editorial
-	 * @param tematicaEnum
-	 * @param coleccion
-	 * @param numeroPaginas
-	 * @param precio
-	 * @param autor
-	 * @param color
-	 * @param fechaVenta
-	 * @param estado
-	 * @param cantidad
-	 */
-	public ComicDTO(String id, String nombre, String editorial, TematicaEnum tematicaEnum, String coleccion,
-			Integer numeroPaginas, BigDecimal precio, String autor, Boolean color, LocalDate fechaVenta,
-			EstadoEnum estado, Long cantidad) {
-		super();
-		this.id = id;
-		this.nombre = nombre;
-		this.editorial = editorial;
-		this.tematicaEnum = tematicaEnum;
-		this.coleccion = coleccion;
-		this.numeroPaginas = numeroPaginas;
-		this.precio = precio;
-		this.autores = autor;
-		this.color = color;
-		this.fechaVenta = fechaVenta;
-		this.estadoEnum = estado;
-		this.cantidad = cantidad;
-	}
-
-	/**
-	 * 
-	 * Constructor de la clase.
-	 */
-	public ComicDTO() {
-		// TODO Auto-generated constructor stub
-	}
 
 	/**
 	 * Metodo encargado de retornar el valor del atributo id
@@ -180,21 +88,21 @@ public class ComicDTO implements Serializable {
 	}
 
 	/**
-	 * Metodo encargado de retornar el valor del atributo tematica
+	 * Metodo encargado de retornar el valor del atributo tematicaEnum
 	 * 
-	 * @return El tematica asociado a la clase
+	 * @return El tematicaEnum asociado a la clase
 	 */
-	public TematicaEnum getTematica() {
+	public TematicaEnum getTematicaEnum() {
 		return tematicaEnum;
 	}
 
 	/**
-	 * Metodo encargado de modificar el valor del atributo tematica
+	 * Metodo encargado de modificar el valor del atributo tematicaEnum
 	 * 
-	 * @param tematica El nuevo tematica a modificar.
+	 * @param tematicaEnum El nuevo tematicaEnum a modificar.
 	 */
-	public void setTematica(TematicaEnum tematica) {
-		this.tematicaEnum = tematica;
+	public void setTematicaEnum(TematicaEnum tematicaEnum) {
+		this.tematicaEnum = tematicaEnum;
 	}
 
 	/**
@@ -252,21 +160,21 @@ public class ComicDTO implements Serializable {
 	}
 
 	/**
-	 * Metodo encargado de retornar el valor del atributo autor
+	 * Metodo encargado de retornar el valor del atributo autores
 	 * 
-	 * @return El autor asociado a la clase
+	 * @return El autores asociado a la clase
 	 */
-	public String getAutor() {
+	public String getAutores() {
 		return autores;
 	}
 
 	/**
-	 * Metodo encargado de modificar el valor del atributo autor
+	 * Metodo encargado de modificar el valor del atributo autores
 	 * 
-	 * @param autor El nuevo autor a modificar.
+	 * @param autores El nuevo autores a modificar.
 	 */
-	public void setAutor(String autor) {
-		this.autores = autor;
+	public void setAutores(String autores) {
+		this.autores = autores;
 	}
 
 	/**
@@ -306,21 +214,21 @@ public class ComicDTO implements Serializable {
 	}
 
 	/**
-	 * Metodo encargado de retornar el valor del atributo estado
+	 * Metodo encargado de retornar el valor del atributo estadoEnum
 	 * 
-	 * @return El estado asociado a la clase
+	 * @return El estadoEnum asociado a la clase
 	 */
-	public EstadoEnum getEstado() {
+	public EstadoEnum getEstadoEnum() {
 		return estadoEnum;
 	}
 
 	/**
-	 * Metodo encargado de modificar el valor del atributo estado
+	 * Metodo encargado de modificar el valor del atributo estadoEnum
 	 * 
-	 * @param estado El nuevo estado a modificar.
+	 * @param estadoEnum El nuevo estadoEnum a modificar.
 	 */
-	public void setEstado(EstadoEnum estado) {
-		this.estadoEnum = estado;
+	public void setEstadoEnum(EstadoEnum estadoEnum) {
+		this.estadoEnum = estadoEnum;
 	}
 
 	/**
@@ -340,16 +248,65 @@ public class ComicDTO implements Serializable {
 	public void setCantidad(Long cantidad) {
 		this.cantidad = cantidad;
 	}
-	
+
 	/**
+	 * Método encargado de convertir los datos recibidos en JSON al tipo ComicDTO.
+	 * <b>Caso de Uso:</b>
 	 * 
-	 * @see java.lang.Object#toString()
+	 * @param arg Cadena que representa el objeto complejo JSON.
+	 * @return Instancia con los datos recibidos.
+	 */
+	public static ComicDTO valueOf(String arg) {
+		return JsonUtils.valueOf(arg, ComicDTO.class);
+	}
+
+	/**
+	 * Método encargado de convertir los datos recibidos en ComicDTO al JSON
+	 * esperado
+	 * 
+	 * @param dto DTO
+	 * 
+	 * @return Json
 	 */
 	@Override
 	public String toString() {
-		return "Comic [id=" + id + ", nombre=" + nombre + ", editorial=" + editorial + ", tematica=" + tematicaEnum
-				+ ", coleccion=" + coleccion + ", numeroPaginas=" + numeroPaginas + ", precio=" + precio + ", autores="
-				+ autores + ", color=" + color + ", fechaVenta=" + fechaVenta + ", estado=" + estadoEnum + ", cantidad="
-				+ cantidad + "]";
+		return JsonUtils.toStringJson(this);
+	}
+
+	/**
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + ((nombre == null) ? 0 : nombre.hashCode());
+		return result;
+	}
+
+	/**
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		ComicDTO other = (ComicDTO) obj;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		if (nombre == null) {
+			if (other.nombre != null)
+				return false;
+		} else if (!nombre.equals(other.nombre))
+			return false;
+		return true;
 	}
 }

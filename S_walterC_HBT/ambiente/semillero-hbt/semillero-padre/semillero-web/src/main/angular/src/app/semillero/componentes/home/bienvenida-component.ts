@@ -27,12 +27,13 @@ export class BienvenidaComponent implements OnInit {
     let data = this.activatedRoute.snapshot.params;
     
     console.log("Parametros recibidos " + data);
-
+/*
     this.ejemploService.consultarComics().subscribe(respuesta => {
       console.log(respuesta);
     });
+    */
 
-
+    /*
     this.comicDTO = new ComicDTO();    
     this.comicDTO.nombre = "BATAMAN";
     this.comicDTO.editorial = "perro";
@@ -45,12 +46,13 @@ export class BienvenidaComponent implements OnInit {
     this.comicDTO.tematica = "AVENTURAS"
     this.comicDTO.autores = "cindyDiego";
     this.comicDTO.color = true;
+    */
 
-    
+    /*
     this.ejemploService.crearComic(this.comicDTO).subscribe(respuesta => {
       console.log(respuesta);
     });
-
+*/
    
   }
 

@@ -1,8 +1,10 @@
+
 import { ComicDTO } from '../../dto/comic.dto';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Alert } from 'selenium-webdriver';
+import { GestionarComicService } from '../../servicios/gestionar.comic.service';
+
 
 /**
  * @description Componenete gestionar comic, el cual contiene la logica CRUD
@@ -19,7 +21,7 @@ export class GestionarComicComponent implements OnInit {
     /**
      * Atributo que contiene los controles del formulario
      */
-    public gestionarComicForm: FormGroup;
+    public gestionarComicForm : FormGroup;
 
     /**
      * Atributo que contendra la informacion del comic
@@ -29,46 +31,43 @@ export class GestionarComicComponent implements OnInit {
     /**
      * Atributo que contendra la lista de comics creados
      */
-    public listaComics: Array<ComicDTO>;
+    public listaComics : Array<ComicDTO>;
 
     /**
-     * atributo que va aumentando secuencial cada vez que se crea un comic
+     * atributo para saber si se va a editar una entidad
      */
-    public idComic: number = 0;
+    public isEdit: boolean;
 
     /**
-     * atributo para guardar la posicion del comic en la lista
+     * atributo para guardar el id del comic a modificar
      */
-    public numeroPosicion: number;
+    public idComicModificar: string;
 
     /**
      * Atributo que indica si se envio a validar el formulario
      */
-    public submitted: boolean;
-
-    /**
-     * Atributo que me indica si un comic fue editado
-     */
-    public isEdit: boolean;
+    public submitted : boolean;
 
     /**
      * @description Este es el constructor del componente GestionarComicComponent
      * @author Diego Fernando Alvarez Silva <dalvarez@heinsohn.com.co>
      */
-    constructor(private fb: FormBuilder,
-        private router: Router) {
+    constructor(private fb : FormBuilder,
+        private router : Router,
+        private gestionarComicService : GestionarComicService) {
         this.gestionarComicForm = this.fb.group({
-            //deben ser el mismo nombre del comicDTO
-            //recibe una lista de validaciones, primero se inicializa en null y el validators dice que es un cmpo requerido
-            //en el html se coloca solo el nombre del control (nombre, tematica, color)
-            nombre: [null, Validators.required],
-            tematica: [null],
-            color: [null],
-            editorial: [null],
-            coleccion: [null],
-            numeroPaginas: [null],
-            precio: [null],
-            autores: [null]
+            autores : [null],
+            cantidad: [null],
+            coleccion : [null],
+            color : [null],
+            editorial : [null],
+            estadoEnum: [null],
+            fechaVenta: [null],
+            nombre : [null, Validators.required],
+            numeroPaginas : [null],
+            precio : [null],
+            tematicaEnum : [null],
+
         });
     }
 
@@ -80,92 +79,149 @@ export class GestionarComicComponent implements OnInit {
         console.log("Ingreso al al evento oninit");
         this.comic = new ComicDTO();
         this.listaComics = new Array<ComicDTO>();
+        this.consultarComics();
         this.isEdit = false;
     }
 
     /**
-     * @description Metodo que permite validar el formulario y crear o actulizar un comic
+     * @description Metodo encargado de consultar los comics existentes
+     * @author Diego Fernando Alvarez Silva <dalvarez@heinsohn.com.co>
+     */
+    public consultarComics() : void {
+        this.gestionarComicService.consultarComics().subscribe(listaComics => {
+            this.listaComics = listaComics;
+        }, error => {
+            console.log(error);
+        });
+    }
+
+    /**
+     * @description Metodo encargado de crear/modificar un ocmic
+     * @author Walter Mauricio Cuervo Barahona <walter.cuervo@uptc.edu.co>
      */
     public crearActualizarComic(): void {
-        this.submitted = true;//bandera para validar el formulario se usa en el ngclass
-        if (this.gestionarComicForm.invalid) { //
+        this.submitted = true;
+        if(this.gestionarComicForm.invalid) {
             return;
         }
-        if (this.isEdit) {
+        if(!this.isEdit){
             this.crearComic();
-            this.comic.id = this.numeroPosicion + 1 +"";
-            this.listaComics[this.numeroPosicion] = this.comic;
-            this.isEdit = false;
+            this.gestionarComicService.crearComic(this.comic).subscribe(resultadoDTO => {
+                if(resultadoDTO.exitoso) {
+                    this.consultarComics();
+                    this.limpiarFormulario();
+                }
+            }, error => {
+                console.log(error);
+            });
         } else {
             this.crearComic();
-            this.idComic++;
-            this.comic.id = this.idComic + "";
-            this.listaComics.push(this.comic);
+            console.log(this.comic);
+            this.gestionarComicService.modificarComic(this.comic).subscribe(resultadoDTO => {
+                if (resultadoDTO.exitoso) {
+                    this.consultarComics();
+                    this.limpiarFormulario();
+                    this.isEdit = false;
+                }
+            }, error => {
+                console.log(error);
+            });
         }
-        this.limpiarFormulario();
     }
 
     /**
-     * metodo para crear un comic con los valores FormGroup
+     * @description Metodo encargado de crear un comic con los datos del formulario
+     * @author Walter Mauricio Cuervo Barahona <walter.cuervo@uptc.edu.co>
      */
-    public crearComic(): void {
+    public crearComic(): void{
         this.comic = new ComicDTO();
-        this.comic.nombre = this.gestionarComicForm.controls.nombre.value;
-        this.comic.editorial = this.gestionarComicForm.controls.editorial.value;
-        this.comic.tematica = this.gestionarComicForm.controls.tematica.value;
+        this.comic.autores = this.gestionarComicForm.controls.autores.value;
+        this.comic.cantidad = this.gestionarComicForm.controls.cantidad.value;
         this.comic.coleccion = this.gestionarComicForm.controls.coleccion.value;
+        this.comic.color = this.gestionarComicForm.controls.color.value;
+        this.comic.editorial = this.gestionarComicForm.controls.editorial.value;
+        this.comic.estadoEnum = this.gestionarComicForm.controls.estadoEnum.value;
+        this.comic.fechaVenta = null;
+        this.comic.nombre = this.gestionarComicForm.controls.nombre.value;
         this.comic.numeroPaginas = this.gestionarComicForm.controls.numeroPaginas.value;
         this.comic.precio = this.gestionarComicForm.controls.precio.value;
-        this.comic.autores = this.gestionarComicForm.controls.autores.value;
-        this.comic.color = this.gestionarComicForm.controls.color.value;
+        this.comic.tematicaEnum = this.gestionarComicForm.controls.tematicaEnum.value;
+        this.comic.id = this.idComicModificar;
     }
 
     /**
-   * Metodo que permite consultar un comic de la tabla y sus detalles e inhabilitar el formulario
-   * @param posicion en la lista del comic seleccionado
-   */
-    public editarComic(comic: ComicDTO, numero: number): void {
+     * @description Metodo encargado de agregarle los valores de un comic al formulario
+     * @author Walter Mauricio Cuervo Barahona <walter.cuervo@uptc.edu.co>
+     * @param comic 
+     */
+    public editarComic(comic: ComicDTO): void {
         this.isEdit = true; //bandera para saber si se edito un comic
-        this.gestionarComicForm.controls.nombre.setValue(comic.nombre);
-        this.gestionarComicForm.controls.editorial.setValue(comic.editorial);
-        this.gestionarComicForm.controls.tematica.setValue(comic.tematica);
+        this.gestionarComicForm.controls.autores.setValue(comic.autores);
+        this.gestionarComicForm.controls.cantidad.setValue(comic.cantidad);
         this.gestionarComicForm.controls.coleccion.setValue(comic.coleccion);
+        this.gestionarComicForm.controls.color.setValue(comic.color);
+        this.gestionarComicForm.controls.editorial.setValue(comic.editorial);
+        this.gestionarComicForm.controls.estadoEnum.setValue(comic.estadoEnum);
+        this.gestionarComicForm.controls.fechaVenta.setValue(null);
+        this.gestionarComicForm.controls.nombre.setValue(comic.nombre);
         this.gestionarComicForm.controls.numeroPaginas.setValue(comic.numeroPaginas);
         this.gestionarComicForm.controls.precio.setValue(comic.precio);
-        this.gestionarComicForm.controls.autores.setValue(comic.autores);
-        this.gestionarComicForm.controls.color.setValue(comic.color);
-        this.numeroPosicion = numero;
+        this.gestionarComicForm.controls.tematicaEnum.setValue(comic.tematicaEnum);
+        this.idComicModificar = comic.id;
     }
-
+    
     /**
-     * metodo que permite eliminar un comic de la lista
-     * @param posicion en la lista del comic seleccionado
+     * @description Metodo encargado de setear los valores del formulario
+     * @author Walter Mauricio Cuervo Barahona <walter.cuervo@uptc.edu.co>
      */
-    public eliminarComic(posicion: number): void {
-        alert("Se ha eliminado a " + this.listaComics[posicion].nombre);
-        this.listaComics.splice(posicion, 1);
-    }
-
-    /**
-     * Metodo que se encarga de limpiar los campos de texto una vez es creado un comic o editado
-     */
-    private limpiarFormulario(): void {
+    private limpiarFormulario() : void {
         this.submitted = false;
-        this.gestionarComicForm.controls.nombre.setValue(null);
-        this.gestionarComicForm.controls.editorial.setValue(null);
-        this.gestionarComicForm.controls.tematica.setValue(null);
+        this.gestionarComicForm.controls.autores.setValue(null);
+        this.gestionarComicForm.controls.cantidad.setValue(null);
         this.gestionarComicForm.controls.coleccion.setValue(null);
+        this.gestionarComicForm.controls.color.setValue(null);
+        this.gestionarComicForm.controls.editorial.setValue(null);
+        this.gestionarComicForm.controls.estadoEnum.setValue(null);
+        this.gestionarComicForm.controls.fechaVenta.setValue(null);
+        this.gestionarComicForm.controls.nombre.setValue(null);
         this.gestionarComicForm.controls.numeroPaginas.setValue(null);
         this.gestionarComicForm.controls.precio.setValue(null);
-        this.gestionarComicForm.controls.autores.setValue(null);
-        this.gestionarComicForm.controls.color.setValue(null);
+        this.gestionarComicForm.controls.tematicaEnum.setValue(null);
+    }
+
+    /**
+     * 
+     * @description Metodo encargado de eliminar un ocmic
+     * @author Walter Mauricio Cuervo Barahona <walter.cuervo@uptc.edu.co>
+     */
+    public eliminarComic(idComic: number): void {
+        this.gestionarComicService.eliminarComic(idComic).subscribe(resultadoDTO => {
+            if (resultadoDTO.exitoso) {
+                this.consultarComics();
+            }
+        }, error => {
+            console.log(error);
+        });
+    }
+
+    /**
+     * @description Metodo encargado de consultar un comic mostrandolos en otro componente
+     * @author Walter Mauricio Cuervo Barahona <walter.cuervo@uptc.edu.co>
+     * @param id 
+     */
+    public consultarComic(id: number): void {
+       this.gestionarComicService.consultarComic(id).subscribe(comicDTO =>{
+        this.router.navigate(['consultar-Comic', comicDTO]);
+       }, error => {
+           console.log(error);
+       });
     }
 
     /**
      * @description Metodo que obtiene los controles y sus propiedades
      * @author Diego Fernando Alvarez Silva
      */
-    public get f() {
-        return this.gestionarComicForm.controls;//lista de controles, nombre, tematica y color
+    get f() { 
+        return this.gestionarComicForm.controls;
     }
 }
