@@ -12,8 +12,10 @@ import javax.ejb.TransactionManagementType;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import com.hbt.semillero.dto.ComicDTO;
+import com.hbt.semillero.dto.ProveedorDTO;
 import com.hbt.semillero.dto.ResultadoDTO;
 import com.hbt.semillero.entidad.Comic;
+import com.hbt.semillero.entidad.Proveedor;
 
 /**
  * <b>Descripción:<b> Clase que determina el bean para realizar las gestion de

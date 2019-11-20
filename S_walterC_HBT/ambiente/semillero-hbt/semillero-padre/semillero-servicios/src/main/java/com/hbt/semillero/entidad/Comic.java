@@ -6,6 +6,7 @@ package com.hbt.semillero.entidad;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -14,6 +15,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -27,7 +29,6 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "COMIC")
 public class Comic implements Serializable {
-
 	/**
 	 * Serializar es pasar un Objeto a un array de bytes y viceversa. Atributo que
 	 * determina serialVersionUID es el id único que identifica una clase cuando lo
@@ -47,7 +48,8 @@ public class Comic implements Serializable {
 	private LocalDate fechaVenta;
 	private EstadoEnum estadoEnum;
 	private Long cantidad;
-
+	private List<FacturaDetalle> listaFacturaDetalles;
+	
 	/**
 	 * Constructor de la clase.
 	 */
@@ -278,7 +280,6 @@ public class Comic implements Serializable {
 	public Long getCantidad() {
 		return cantidad;
 	}
-
 	/**
 	 * Metodo encargado de modificar el valor del atributo cantidad
 	 * 
@@ -286,6 +287,24 @@ public class Comic implements Serializable {
 	 */
 	public void setCantidad(Long cantidad) {
 		this.cantidad = cantidad;
+	}
+	
+
+	/**
+	 * Metodo encargado de retornar el valor del atributo listaFacturaDetalles
+	 * @return El listaFacturaDetalles asociado a la clase
+	 */
+	@OneToMany(mappedBy = "comic")
+	public List<FacturaDetalle> getListaFacturaDetalles() {
+		return listaFacturaDetalles;
+	}
+
+	/**
+	 * Metodo encargado de modificar el valor del atributo listaFacturaDetalles
+	 * @param listaFacturaDetalles El nuevo listaFacturaDetalles a modificar.
+	 */
+	public void setListaFacturaDetalles(List<FacturaDetalle> listaFacturaDetalles) {
+		this.listaFacturaDetalles = listaFacturaDetalles;
 	}
 
 	/**
