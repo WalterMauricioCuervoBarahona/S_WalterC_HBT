@@ -3,6 +3,7 @@
  */
 package com.hbt.semillero.ejb;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import javax.ejb.Local;
@@ -40,7 +41,7 @@ public interface IGestionarProveedorLocal {
 	 * @param proveedorDTO
 	 * @return
 	 */
-	public ResultadoDTO crearProveedor(ProveedorDTO proveedorDTO);
+	public ResultadoDTO crearProveedor(ProveedorDTO proveedorDTO, Long id);
 	
 	/**
 	 * 
@@ -73,7 +74,7 @@ public interface IGestionarProveedorLocal {
 	 * @param proveedorDTO
 	 * @return
 	 */
-	public ResultadoDTO modificarProveedor(ProveedorDTO proveedorDTO);
+	public ResultadoDTO modificarProveedor(BigDecimal monto, String nombre, Long id);
 	
 	/**
 	 * 

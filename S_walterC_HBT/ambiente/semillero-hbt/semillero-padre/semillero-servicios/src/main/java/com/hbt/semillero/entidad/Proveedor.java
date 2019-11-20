@@ -77,8 +77,8 @@ public class Proveedor implements Serializable {
 	 * @return El id asociado a la clase
 	 */
 	@Id
-	@SequenceGenerator(allocationSize = 1, name = "PROVEEDOR_SPID_GENERATOR", sequenceName = "SEQ_PROVEEDOR")
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "PROVEEDOR_SPID_GENERATOR")
+	@SequenceGenerator(allocationSize = 1, name = "GENERATOR", sequenceName = "SEQ_PROVEEDOR")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "GENERATOR")
 	@Column(name = "SPID")
 	public Long getId() {
 		return id;

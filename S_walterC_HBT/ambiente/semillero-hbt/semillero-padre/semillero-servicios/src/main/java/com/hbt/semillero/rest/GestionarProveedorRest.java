@@ -3,6 +3,7 @@
  */
 package com.hbt.semillero.rest;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import javax.ejb.EJB;
@@ -62,7 +63,7 @@ public class GestionarProveedorRest {
 	@GET
 	@Path("/consultarProveedor")
 	@Produces(MediaType.APPLICATION_JSON)
-	public ProveedorDTO consultarComic(@QueryParam("idPro") Long id) throws Exception {
+	public ProveedorDTO consultarProveedor(@QueryParam("idPro") Long id) throws Exception {
 			 return gestionarProveedor.consultarProveedor(id.toString());
 	}
 
@@ -95,8 +96,8 @@ public class GestionarProveedorRest {
 	@Path("/crear")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public ResultadoDTO crearProveedor(ProveedorDTO proveedorDTO) {
-		return gestionarProveedor.crearProveedor(proveedorDTO);		
+	public ResultadoDTO crearProveedor(ProveedorDTO proveedorDTO, @QueryParam("idPro") Long id) {
+		return gestionarProveedor.crearProveedor(proveedorDTO, id);		
 	}
 	
 	/**
@@ -111,8 +112,8 @@ public class GestionarProveedorRest {
 	@PUT
 	@Path("/modificar")
 	@Produces(MediaType.APPLICATION_JSON)
-	public ResultadoDTO modificarProveedor(ProveedorDTO proveedorDTO) {
-		return gestionarProveedor.modificarProveedor(proveedorDTO);
+	public ResultadoDTO modificarProveedor(@QueryParam("monto")BigDecimal monto,@QueryParam("nombre") String nombre,@QueryParam("idPro") Long id) {
+		return gestionarProveedor.modificarProveedor(monto, nombre, id);
 	}
 	
 	/**
@@ -157,7 +158,7 @@ public class GestionarProveedorRest {
 	 * @param direccion
 	 * @return
 	 */
-	@PUT
+	@GET
 	@Path("/modificarDireccion")
 	@Produces(MediaType.APPLICATION_JSON)
 	public ResultadoDTO modificarDireccion(@QueryParam("id") Long id, @QueryParam("direccion") String direccion) {

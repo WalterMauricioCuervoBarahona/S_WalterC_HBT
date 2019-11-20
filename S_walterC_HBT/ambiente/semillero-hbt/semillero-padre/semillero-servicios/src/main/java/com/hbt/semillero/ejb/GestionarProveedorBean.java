@@ -3,6 +3,7 @@
  */
 package com.hbt.semillero.ejb;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,6 +21,7 @@ import com.hbt.semillero.dto.ResultadoDTO;
 import com.hbt.semillero.dto.Utilidades;
 import com.hbt.semillero.entidad.Comic;
 import com.hbt.semillero.entidad.EstadoEnum;
+import com.hbt.semillero.entidad.Persona;
 import com.hbt.semillero.entidad.Proveedor;
 
 /**
@@ -57,15 +59,15 @@ public class GestionarProveedorBean implements IGestionarProveedorLocal{
 	 */
 	@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
 	@Override
-	public ResultadoDTO crearProveedor(ProveedorDTO proveedorDTO) {
+	public ResultadoDTO crearProveedor(ProveedorDTO proveedorDTO, Long id) {
 		if(proveedorDTO != null) {
+			Persona persona = em.find(Persona.class, id);
 			Proveedor proveedorNuevo = convertirProveedorDTOToProveedor(proveedorDTO);
+			proveedorNuevo.setPersona(persona);
 			List<String> listNombres = em.createQuery("select p.nombre from Persona p").getResultList();
 			Boolean verificar = Utilidades.isNombreRepetido(listNombres, proveedorNuevo.getPersona().getNombre());
-			if(!verificar) {
 				em.persist(proveedorNuevo);
 				return new ResultadoDTO(Boolean.TRUE, "se ha creado exitosamente el proveedor");
-			}			
 		}
 		return new ResultadoDTO(Boolean.FALSE, "No se ha podico crear el proveedor");
 	}
@@ -75,10 +77,8 @@ public class GestionarProveedorBean implements IGestionarProveedorLocal{
 	 */
 	@TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
 	public ProveedorDTO consultarProveedor(String id) throws Exception{
-		System.out.println("entro*****************************");
 		Proveedor proveedor = new Proveedor(); 
 		proveedor = buscarProveedor(Long.parseLong(id));
-		System.out.println("ID¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨" + proveedor.getId());
 		if(proveedor != null) {
 			return convertirProveedorToProveedorDTO(proveedor);
 		}
@@ -90,6 +90,7 @@ public class GestionarProveedorBean implements IGestionarProveedorLocal{
 	 */
 	@TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
 	public List<ProveedorDTO> consultarProveedores() {
+		Persona persona = new Persona();
 		List<ProveedorDTO> list = new ArrayList<ProveedorDTO>();
 		List<Proveedor> resultado = em.createQuery("select p from Proveedor p").getResultList();
 		for (Proveedor proveedor : resultado) {
@@ -101,17 +102,37 @@ public class GestionarProveedorBean implements IGestionarProveedorLocal{
 	/** 
 	 * @see com.hbt.semillero.ejb.IGestionarProveedorLocal#modificarProveedor(com.hbt.semillero.dto.ProveedorDTO)
 	 */
+	
 	@TransactionAttribute(TransactionAttributeType.REQUIRED)
-	public ResultadoDTO modificarProveedor(ProveedorDTO proveedorDTO) {
-		Proveedor proveedorM = buscarProveedor(Long.parseLong(proveedorDTO.getId()));
+	public ResultadoDTO modificarProveedor(BigDecimal monto, String nombre, Long id) {
+		Proveedor proveedorM = buscarProveedor(id);
 		if(proveedorM != null) {
-			proveedorM = convertirProveedorDTOToProveedor(proveedorDTO);
+			proveedorM.setMontoCredito(monto);
+			proveedorM.getPersona().setNombre(nombre);
+//			proveedorM = convertirProveedorDTOToProveedor(proveedorDTO);
 			em.merge(proveedorM);
 			return new ResultadoDTO(Boolean.TRUE, "Proveedor modificado exitosamente");
 		}else {
 			return new ResultadoDTO(Boolean.FALSE, "No se pudo modificar el Proveedor");
 		}
 	}
+	
+	/*
+	@TransactionAttribute(TransactionAttributeType.REQUIRED)
+	public ResultadoDTO modificarProveedor(ProveedorDTO proveedorDTO) {
+		
+		Proveedor proveedorM = buscarProveedor(Long.parseLong(proveedorDTO.getId()));
+		if(proveedorM != null) {
+			
+		//	proveedorM.setMontoCredito(monto);
+		//	proveedorM.getPersona().setNombre(nombre);
+			proveedorM = convertirProveedorDTOToProveedor(proveedorDTO);
+			em.merge(proveedorM);
+			return new ResultadoDTO(Boolean.TRUE, "Proveedor modificado exitosamente");
+		}else {
+			return new ResultadoDTO(Boolean.FALSE, "No se pudo modificar el Proveedor");
+		}
+	}*/
 
 	/** 
 	 * @see com.hbt.semillero.ejb.IGestionarProveedorLocal#eliminarProveedor(java.lang.Long)
@@ -158,7 +179,7 @@ public class GestionarProveedorBean implements IGestionarProveedorLocal{
 		proveedor.setEstadoEnum(proveedorDTO.getEstadoEnum());
 		proveedor.setFechaCreacion(proveedorDTO.getFechaCreacion());
 		proveedor.setMontoCredito(proveedorDTO.getMontoCredito());
-		proveedor.setPersona(proveedorDTO.getPersona());
+		//proveedor.setPersona(proveedorDTO.getPersona());
 		return proveedor;
 	}
 
@@ -179,8 +200,9 @@ public class GestionarProveedorBean implements IGestionarProveedorLocal{
 		proveedorDTO.setDireccion(proveedor.getDireccion());
 		proveedorDTO.setEstadoEnum(proveedor.getEstadoEnum());
 		proveedorDTO.setFechaCreacion(proveedor.getFechaCreacion());
-		proveedorDTO.setMontoCredito(proveedor.getMontoCredito());
-		proveedorDTO.setPersona(proveedor.getPersona());
+		proveedorDTO.setMontoCredito(proveedor.getMontoCredito());	
+		//proveedorDTO.setPersona(proveedor.getPersona());
+		
 		return proveedorDTO;
 	}
 
